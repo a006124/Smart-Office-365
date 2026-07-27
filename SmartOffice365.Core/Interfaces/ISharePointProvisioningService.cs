@@ -13,7 +13,7 @@ namespace SmartOffice365.Core.Interfaces
         Task<bool> TestSiteConnectionAsync();
 
         /// <summary>Crée les 6 listes SharePoint requises si elles n'existent pas</summary>
-        Task<ProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null);
+        Task<SharePointProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null);
 
         /// <summary>Vérifie l'existence d'une liste par son nom</summary>
         Task<bool> ListExistsAsync(string listName);

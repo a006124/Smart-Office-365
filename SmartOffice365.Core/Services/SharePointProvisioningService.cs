@@ -115,9 +115,9 @@ namespace SmartOffice365.Core.Services
             }
         }
 
-        public async Task<ProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null)
+        public async Task<SharePointProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null)
         {
-            var result = new ProvisioningResult();
+            var result = new SharePointProvisioningResult();
             try
             {
                 var client = await _authService.GetAuthenticatedClientAsync();
