@@ -1,6 +1,7 @@
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using SmartOffice365.Core.Interfaces;
+using SmartOffice365.Core.Models;
 
 namespace SmartOffice365.Core.Services
 {

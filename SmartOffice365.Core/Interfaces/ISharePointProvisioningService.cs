@@ -3,17 +3,6 @@ using SmartOffice365.Core.Models;
 namespace SmartOffice365.Core.Interfaces
 {
     /// <summary>
-    /// Résultat d'une opération de provisioning SharePoint
-    /// </summary>
-    public class ProvisioningResult
-    {
-        public bool Success { get; set; }
-        public List<string> ActionsPerformed { get; set; } = new();
-        public List<string> Errors { get; set; } = new();
-        public DateTime Timestamp { get; set; } = DateTime.Now;
-    }
-
-    /// <summary>
     /// Service de provisioning automatique des listes SharePoint
     /// </summary>
     public interface ISharePointProvisioningService

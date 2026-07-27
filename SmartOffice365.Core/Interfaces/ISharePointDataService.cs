@@ -7,56 +7,41 @@ namespace SmartOffice365.Core.Interfaces
     /// </summary>
     public interface ISharePointDataService
     {
-        // ── Contacts ──────────────────────────────────────────────────────────
+        // Contacts
         Task<List<ContactEntity>> GetContactsAsync(string? filter = null);
         Task<ContactEntity?> GetContactByIdAsync(int id);
         Task<ContactEntity> CreateContactAsync(ContactEntity contact);
         Task<ContactEntity> UpdateContactAsync(ContactEntity contact);
         Task DeleteContactAsync(int id);
 
-        // ── Affaires ──────────────────────────────────────────────────────────
+        // Affaires
         Task<List<AffaireEntity>> GetAffairesAsync(string? filter = null);
         Task<AffaireEntity?> GetAffaireByIdAsync(int id);
         Task<AffaireEntity> CreateAffaireAsync(AffaireEntity affaire);
         Task<AffaireEntity> UpdateAffaireAsync(AffaireEntity affaire);
 
-        // ── Ordres de Travail ─────────────────────────────────────────────────
+        // Ordres de Travail
         Task<List<OrdreDeTravailEntity>> GetOrdresDeTravailAsync(string? filter = null);
         Task<OrdreDeTravailEntity?> GetOrdreDeTravailByIdAsync(int id);
         Task<OrdreDeTravailEntity> CreateOrdreDeTravailAsync(OrdreDeTravailEntity ot);
         Task<OrdreDeTravailEntity> UpdateOrdreDeTravailAsync(OrdreDeTravailEntity ot);
         Task UpdateAvancementAsync(int id, int avancement, string statut);
 
-        // ── Prérequis ─────────────────────────────────────────────────────────
+        // Prérequis
         Task<List<PrerequsEntity>> GetPrerequisByOTAsync(int otId);
         Task<PrerequsEntity> CreatePrerequsAsync(PrerequsEntity prereq);
         Task<PrerequsEntity> UpdatePrerequsAsync(PrerequsEntity prereq);
 
-        // ── Ressources ────────────────────────────────────────────────────────
+        // Ressources
         Task<List<RessourceEntity>> GetRessourcesByOTAsync(int otId);
         Task<RessourceEntity> CreateRessourceAsync(RessourceEntity ressource);
         Task<RessourceEntity> UpdateRessourceAsync(RessourceEntity ressource);
 
-        // ── Habilitations ─────────────────────────────────────────────────────
+        // Habilitations
         Task<List<HabilitationEntity>> GetHabilitationsByContactAsync(int contactId);
         Task<HabilitationEntity> CreateHabilitationAsync(HabilitationEntity habilitation);
 
-        // ── KPIs Dashboard ────────────────────────────────────────────────────
+        // KPIs Dashboard
         Task<DashboardKpis> GetDashboardKpisAsync();
-    }
-
-    /// <summary>
-    /// Indicateurs clés de performance pour le tableau de bord
-    /// </summary>
-    public class DashboardKpis
-    {
-        public int TotalOT { get; set; }
-        public int OTTermines { get; set; }
-        public int OTEnCours { get; set; }
-        public int OTBloques { get; set; }
-        public int OTEnRetard { get; set; }
-        public double AvancementGlobal { get; set; }
-        public int TotalContacts { get; set; }
-        public int TotalAffaires { get; set; }
     }
 }
