@@ -8,7 +8,7 @@ namespace SmartOffice365.UI.ViewModels
         private ViewModelBase _currentView;
         private string _currentTitle = "Tableau de Bord";
         private string _searchQuery = string.Empty;
-        private string _userDisplayName = "Chargement...";
+        private string _userDisplayName = "Session Office 365 Active";
         private bool _isSidebarExpanded = true;
 
         public ViewModelBase CurrentView

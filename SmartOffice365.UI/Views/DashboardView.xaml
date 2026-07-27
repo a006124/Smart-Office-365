@@ -161,7 +161,7 @@
                                             <TextBlock Text="{Binding NumeroOT_Aufnr}" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" FontSize="12" />
                                             <TextBlock Text="{Binding Titre}" FontFamily="Segoe UI" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4" TextWrapping="Wrap" />
                                             <ProgressBar Style="{StaticResource GeminiProgressBar}" Value="{Binding Avancement}" Maximum="100" Margin="0,6" Height="4" />
-                                            <TextBlock Text="{Binding Avancement, StringFormat='{0}%'}" FontSize="11" Foreground="{StaticResource AccentBlueBrush}" HorizontalAlignment="Right" />
+                                            <TextBlock Text="{Binding Avancement, StringFormat='{}{0}%'}" FontSize="11" Foreground="{StaticResource AccentBlueBrush}" HorizontalAlignment="Right" />
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>

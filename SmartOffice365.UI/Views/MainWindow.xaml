@@ -5,6 +5,7 @@
         xmlns:vm="clr-namespace:SmartOffice365.UI.ViewModels"
         Title="Smart Office 365 — Cockpit Shutdown"
         Height="850" Width="1400"
+        WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource GeminiBgBrush}">
 

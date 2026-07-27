@@ -11,7 +11,7 @@ namespace SmartOffice365.UI.ViewModels
         private readonly IGraphAuthService _authService;
 
         private string _siteUrl = "https://votre-tenant.sharepoint.com/sites/SmartMaintenance";
-        private string _statusMessage = "Prêt à connecter votre compte Office 365.";
+        private string _statusMessage = "Prêt à exécuter le provisioning sur le site SharePoint.";
         private bool _isProvisioning;
 
         public string SiteUrl
@@ -34,7 +34,6 @@ namespace SmartOffice365.UI.ViewModels
 
         public ObservableCollection<string> LogEntries { get; } = new();
 
-        public ICommand LoginOffice365Command { get; }
         public ICommand StartProvisioningCommand { get; }
         public ICommand TestConnectionCommand { get; }
 
@@ -45,35 +44,15 @@ namespace SmartOffice365.UI.ViewModels
             _provisioningService = provisioningService;
             _authService = authService;
 
-            LoginOffice365Command = new AsyncRelayCommand(LoginOffice365Async);
             StartProvisioningCommand = new AsyncRelayCommand(StartProvisioningAsync);
             TestConnectionCommand = new AsyncRelayCommand(TestConnectionAsync);
-        }
-
-        private async Task LoginOffice365Async()
-        {
-            LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🔐 Ouverture de la fenêtre de connexion Office 365...");
-            StatusMessage = "Connexion Office 365 en cours dans le navigateur...";
-
-            var success = await _authService.SignInAsync();
-            if (success)
-            {
-                var name = await _authService.GetCurrentUserDisplayNameAsync();
-                StatusMessage = $"✅ Connecté en tant que : {name}";
-                LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ✅ Authentification Office 365 réussie pour {name}");
-            }
-            else
-            {
-                StatusMessage = "❌ Connexion annulée ou échouée.";
-                LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ❌ Échec de l'authentification Office 365.");
-            }
         }
 
         private async Task StartProvisioningAsync()
         {
             IsProvisioning = true;
             LogEntries.Clear();
-            LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🚀 Démarrage du provisioning automatique des listes SharePoint...");
+            LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🚀 Démarrage du provisioning des listes SharePoint sur {SiteUrl}...");
 
             var progress = new Progress<string>(msg =>
             {
@@ -107,22 +86,25 @@ namespace SmartOffice365.UI.ViewModels
 
         private async Task TestConnectionAsync()
         {
-            LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🔍 Test de connexion au site SharePoint...");
+            LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🔍 Test d'accès au site SharePoint {SiteUrl}...");
             try
             {
                 var connected = await _provisioningService.TestSiteConnectionAsync();
                 if (connected)
                 {
-                    LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ✅ Connexion au site SharePoint établie !");
+                    LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ✅ Connexion au site SharePoint établie avec succès !");
+                    StatusMessage = "✅ Site SharePoint accessible.";
                 }
                 else
                 {
-                    LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ⚠️ Impossible d'accéder à SharePoint. Connectez votre compte Office 365.");
+                    LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ⚠️ Impossible de joindre le site SharePoint (vérifiez l'URL).");
+                    StatusMessage = "⚠️ Impossible de joindre le site SharePoint.";
                 }
             }
             catch (Exception ex)
             {
                 LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] ❌ Échec de connexion : {ex.Message}");
+                StatusMessage = $"❌ Erreur d'accès : {ex.Message}";
             }
         }
     }
