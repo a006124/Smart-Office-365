@@ -213,53 +213,70 @@ namespace SmartOffice365.Core.Services
             };
         }
 
-        // ====== MAPPINGS ======
+        // ====== HELPERS & MAPPINGS ======
+        private static string GetFieldString(IDictionary<string, object>? fields, string key, string defaultValue = "")
+        {
+            if (fields != null && fields.TryGetValue(key, out var val) && val != null)
+            {
+                return val.ToString() ?? defaultValue;
+            }
+            return defaultValue;
+        }
+
+        private static int GetFieldInt(IDictionary<string, object>? fields, string key, int defaultValue = 0)
+        {
+            if (fields != null && fields.TryGetValue(key, out var val) && val != null)
+            {
+                if (int.TryParse(val.ToString(), out int result)) return result;
+            }
+            return defaultValue;
+        }
+
         private ContactEntity MapToContact(ListItem item)
         {
-            var f = item.Fields?.AdditionalData ?? new Dictionary<string, object>();
+            var f = item.Fields?.AdditionalData;
             return new ContactEntity
             {
                 SharePointItemId = item.Id ?? "",
-                Nom = f.GetValueOrDefault("Title")?.ToString() ?? "",
-                Role = f.GetValueOrDefault("Role")?.ToString() ?? "",
-                Email = f.GetValueOrDefault("Email")?.ToString() ?? "",
-                Telephone = f.GetValueOrDefault("Telephone")?.ToString() ?? "",
-                CompteTeams = f.GetValueOrDefault("CompteTeams")?.ToString() ?? "",
-                CodeVendorSapLIFNR = f.GetValueOrDefault("CodeVendorLIFNR")?.ToString() ?? "",
-                Entreprise = f.GetValueOrDefault("Entreprise")?.ToString() ?? "",
+                Nom = GetFieldString(f, "Title"),
+                Role = GetFieldString(f, "Role"),
+                Email = GetFieldString(f, "Email"),
+                Telephone = GetFieldString(f, "Telephone"),
+                CompteTeams = GetFieldString(f, "CompteTeams"),
+                CodeVendorSapLIFNR = GetFieldString(f, "CodeVendorLIFNR"),
+                Entreprise = GetFieldString(f, "Entreprise"),
             };
         }
 
         private AffaireEntity MapToAffaire(ListItem item)
         {
-            var f = item.Fields?.AdditionalData ?? new Dictionary<string, object>();
+            var f = item.Fields?.AdditionalData;
             return new AffaireEntity
             {
                 SharePointItemId = item.Id ?? "",
-                Titre = f.GetValueOrDefault("Title")?.ToString() ?? "",
-                CodeUniteSAP = f.GetValueOrDefault("CodeUniteSAP")?.ToString() ?? "",
-                Statut = f.GetValueOrDefault("Statut")?.ToString() ?? "",
-                Responsable = f.GetValueOrDefault("Responsable")?.ToString() ?? "",
+                Titre = GetFieldString(f, "Title"),
+                CodeUniteSAP = GetFieldString(f, "CodeUniteSAP"),
+                Statut = GetFieldString(f, "Statut"),
+                Responsable = GetFieldString(f, "Responsable"),
             };
         }
 
         private OrdreDeTravailEntity MapToOT(ListItem item)
         {
-            var f = item.Fields?.AdditionalData ?? new Dictionary<string, object>();
-            int.TryParse(f.GetValueOrDefault("Avancement")?.ToString(), out int avancement);
+            var f = item.Fields?.AdditionalData;
             return new OrdreDeTravailEntity
             {
                 SharePointItemId = item.Id ?? "",
-                Titre = f.GetValueOrDefault("Title")?.ToString() ?? "",
-                NumeroOT_Aufnr = f.GetValueOrDefault("NumeroOT_Aufnr")?.ToString() ?? "",
-                NumeroEquipement_EQUNR = f.GetValueOrDefault("NumeroEquipement_EQUNR")?.ToString() ?? "",
-                PosteTechnique_TPLNR = f.GetValueOrDefault("PosteTechnique_TPLNR")?.ToString() ?? "",
-                PosteTravail_ARBPL = f.GetValueOrDefault("PosteTravail_ARBPL")?.ToString() ?? "",
-                Avancement = avancement,
-                StatutShutdown = f.GetValueOrDefault("StatutShutdown")?.ToString() ?? "À Faire",
-                Priorite = f.GetValueOrDefault("Priorite")?.ToString() ?? "Normale",
-                Responsable = f.GetValueOrDefault("Responsable")?.ToString() ?? "",
-                EntreprisePrestataire = f.GetValueOrDefault("EntreprisePrestataire")?.ToString() ?? "",
+                Titre = GetFieldString(f, "Title"),
+                NumeroOT_Aufnr = GetFieldString(f, "NumeroOT_Aufnr"),
+                NumeroEquipement_EQUNR = GetFieldString(f, "NumeroEquipement_EQUNR"),
+                PosteTechnique_TPLNR = GetFieldString(f, "PosteTechnique_TPLNR"),
+                PosteTravail_ARBPL = GetFieldString(f, "PosteTravail_ARBPL"),
+                Avancement = GetFieldInt(f, "Avancement", 0),
+                StatutShutdown = GetFieldString(f, "StatutShutdown", "À Faire"),
+                Priorite = GetFieldString(f, "Priorite", "Normale"),
+                Responsable = GetFieldString(f, "Responsable"),
+                EntreprisePrestataire = GetFieldString(f, "EntreprisePrestataire"),
             };
         }
     }
