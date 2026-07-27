@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using SmartOffice365.Core.Interfaces;
@@ -10,9 +14,9 @@ namespace SmartOffice365.Core.Services
         private readonly IGraphAuthService _authService;
         private readonly string _siteId;
 
-        private static readonly Dictionary<string, List<ColumnDefinition>> ListDefinitions = new()
+        private static readonly Dictionary<string, List<Microsoft.Graph.Models.ColumnDefinition>> ListDefinitions = new()
         {
-            ["Contacts_Et_Entreprises"] = new List<ColumnDefinition>
+            ["Contacts_Et_Entreprises"] = new List<Microsoft.Graph.Models.ColumnDefinition>
             {
                 new() { Name = "Role", Text = new TextColumn() },
                 new() { Name = "Email", Text = new TextColumn() },
@@ -21,7 +25,7 @@ namespace SmartOffice365.Core.Services
                 new() { Name = "CodeVendorLIFNR", Text = new TextColumn() },
                 new() { Name = "Entreprise", Text = new TextColumn() },
             },
-            ["Affaires_et_Projets"] = new List<ColumnDefinition>
+            ["Affaires_et_Projets"] = new List<Microsoft.Graph.Models.ColumnDefinition>
             {
                 new() { Name = "CodeUniteSAP", Text = new TextColumn() },
                 new() { Name = "DateDebutPrevue", DateTime = new DateTimeColumn() },
@@ -30,7 +34,7 @@ namespace SmartOffice365.Core.Services
                 new() { Name = "Responsable", Text = new TextColumn() },
                 new() { Name = "AvancementGlobal", Number = new NumberColumn { Minimum = 0, Maximum = 100 } },
             },
-            ["Ordres_De_Travail"] = new List<ColumnDefinition>
+            ["Ordres_De_Travail"] = new List<Microsoft.Graph.Models.ColumnDefinition>
             {
                 new() { Name = "NumeroOT_Aufnr", Text = new TextColumn() },
                 new() { Name = "NumeroEquipement_EQUNR", Text = new TextColumn() },
@@ -45,7 +49,7 @@ namespace SmartOffice365.Core.Services
                 new() { Name = "DateFinPrevue", DateTime = new DateTimeColumn() },
                 new() { Name = "MotifsBlockage", Text = new TextColumn { AllowMultipleLines = true } },
             },
-            ["Prerequis_et_Consignations"] = new List<ColumnDefinition>
+            ["Prerequis_et_Consignations"] = new List<Microsoft.Graph.Models.ColumnDefinition>
             {
                 new() { Name = "NumeroOT", Text = new TextColumn() },
                 new() { Name = "Type", Choice = new ChoiceColumn { Choices = new List<string> { "Consignation électrique", "Permis de feu", "Permis de travail", "ATEX", "Travail en hauteur" } } },
@@ -54,7 +58,7 @@ namespace SmartOffice365.Core.Services
                 new() { Name = "Signataire", Text = new TextColumn() },
                 new() { Name = "DateExpiration", DateTime = new DateTimeColumn() },
             },
-            ["Ressources_Et_Moyens"] = new List<ColumnDefinition>
+            ["Ressources_Et_Moyens"] = new List<Microsoft.Graph.Models.ColumnDefinition>
             {
                 new() { Name = "NumeroOT", Text = new TextColumn() },
                 new() { Name = "Type", Choice = new ChoiceColumn { Choices = new List<string> { "Main d'œuvre", "Matériel", "Outillage spécial", "Engin" } } },
@@ -65,7 +69,7 @@ namespace SmartOffice365.Core.Services
                 new() { Name = "Unite", Text = new TextColumn() },
                 new() { Name = "EstDisponible", Boolean = new BooleanColumn() },
             },
-            ["Habilitations_Contacts"] = new List<ColumnDefinition>
+            ["Habilitations_Contacts"] = new List<Microsoft.Graph.Models.ColumnDefinition>
             {
                 new() { Name = "NomContact", Text = new TextColumn() },
                 new() { Name = "TypeHabilitation", Choice = new ChoiceColumn { Choices = new List<string> { "CACES R489", "CACES R482", "Habilitation Électrique B1", "Habilitation Électrique BR", "Travail en hauteur", "ATEX", "Pontier" } } },
@@ -90,7 +94,10 @@ namespace SmartOffice365.Core.Services
                 var site = await client.Sites[_siteId].GetAsync();
                 return site != null;
             }
-            catch { return false; }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> ListExistsAsync(string listName)
@@ -102,7 +109,10 @@ namespace SmartOffice365.Core.Services
                     config.QueryParameters.Filter = $"displayName eq '{listName}'");
                 return lists?.Value?.Any() == true;
             }
-            catch { return false; }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<ProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null)
