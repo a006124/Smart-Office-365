@@ -1,9 +1,27 @@
 <Application x:Class="SmartOffice365.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:SmartOffice365.UI.Converters">
     <Application.Resources>
         <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <!-- Convertisseurs -->
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:HasValueConverter x:Key="HasValueConverter" />
+            <converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+            <converters:ConnectionStatusBrush x:Key="ConnectionStatusBrush" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibilityConverter" />
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+            <converters:PercentageConverter x:Key="PercentageConverter" />
+            <converters:ProgressBarWidthConverter x:Key="ProgressBarWidthConverter" />
+            <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
+            <converters:StatusToColorAdvancedConverter x:Key="StatusToColorAdvancedConverter" />
+            <converters:BoolToStatusConverter x:Key="BoolToStatusConverter" />
+            <converters:PriorityToColorConverter x:Key="PriorityToColorConverter" />
+            
+            <!-- Fusion avec le thème -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/GeminiTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>

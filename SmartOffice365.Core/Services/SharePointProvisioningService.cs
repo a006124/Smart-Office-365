@@ -12,7 +12,38 @@ namespace SmartOffice365.Core.Services
     public class SharePointProvisioningService : ISharePointProvisioningService
     {
         private readonly IGraphAuthService _authService;
-        private readonly string _siteId;
+        private readonly ISharePointSelectionService _selectionService;
+        private string? _siteId;
+
+        public SharePointProvisioningService(
+            IGraphAuthService authService, 
+            ISharePointSelectionService selectionService)
+        {
+            _authService = authService;
+            _selectionService = selectionService;
+        }
+
+        /// <summary>
+        /// Initialise le service avec l'ID du site sélectionné
+        /// </summary>
+        public void SetSiteId(string siteId)
+        {
+            _siteId = siteId;
+        }
+
+        private async Task<string> GetSiteIdAsync()
+        {
+            if (!string.IsNullOrEmpty(_siteId))
+                return _siteId;
+
+            if (_selectionService.HasActiveSite())
+            {
+                _siteId = _selectionService.GetActiveSiteId();
+                return _siteId;
+            }
+
+            throw new InvalidOperationException("Aucun site SharePoint sélectionné. Veuillez d'abord sélectionner un site.");
+        }
 
         private static readonly Dictionary<string, List<Microsoft.Graph.Models.ColumnDefinition>> ListDefinitions = new()
         {

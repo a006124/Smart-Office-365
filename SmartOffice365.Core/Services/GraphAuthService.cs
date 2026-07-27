@@ -7,58 +7,58 @@ namespace SmartOffice365.Core.Services
     public class GraphAuthService : IGraphAuthService
     {
         private GraphServiceClient? _graphClient;
-        private InteractiveBrowserCredential? _credential;
         private string _userDisplayName = string.Empty;
 
         private static readonly string[] Scopes = new[]
         {
-            "User.Read",
-            "Sites.ReadWrite.All",
-            "ChannelMessage.Send",
-            "Mail.Send"
+            "https://graph.microsoft.com/.default"
         };
 
         public async Task<GraphServiceClient> GetAuthenticatedClientAsync()
         {
             if (_graphClient != null) return _graphClient;
 
-            var options = new InteractiveBrowserCredentialOptions
-            {
-                TokenCachePersistenceOptions = new TokenCachePersistenceOptions()
-            };
+            // Utilise DefaultAzureCredential qui fonctionne avec la session Office 365
+            var credential = new DefaultAzureCredential(
+                new DefaultAzureCredentialOptions
+                {
+                    ExcludeInteractiveBrowserCredential = true,
+                    ExcludeVisualStudioCredential = true,
+                    ExcludeVisualStudioCodeCredential = true,
+                    ExcludeAzureCliCredential = true,
+                    ExcludeAzurePowerShellCredential = true,
+                    ExcludeManagedIdentityCredential = true,
+                    ExcludeEnvironmentCredential = true
+                });
 
-            _credential = new InteractiveBrowserCredential(options);
-            _graphClient = new GraphServiceClient(_credential, Scopes);
+            _graphClient = new GraphServiceClient(credential, Scopes);
+            
+            // Test rapide pour valider l'authentification
+            try
+            {
+                var user = await _graphClient.Me.GetAsync();
+                _userDisplayName = user?.DisplayName ?? "Compte Office 365";
+            }
+            catch
+            {
+                _userDisplayName = "Non connecté (Office 365)";
+            }
 
             return _graphClient;
         }
 
-        public async Task<bool> SignInAsync()
+        public async Task<bool> IsAuthenticatedAsync()
         {
             try
             {
                 var client = await GetAuthenticatedClientAsync();
-                var user = await client.Me.GetAsync();
-                _userDisplayName = user?.DisplayName ?? "Compte Office 365";
+                await client.Me.GetAsync();
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
-        }
-
-        public async Task SignOutAsync()
-        {
-            _graphClient = null;
-            _credential = null;
-            _userDisplayName = string.Empty;
-            await Task.CompletedTask;
-        }
-
-        public async Task<bool> IsAuthenticatedAsync()
-        {
-            return _graphClient != null;
         }
 
         public async Task<string> GetCurrentUserDisplayNameAsync()

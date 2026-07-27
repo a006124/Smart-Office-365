@@ -1,0 +1,77 @@
+<UserControl x:Class="SmartOffice365.UI.Views.SiteSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:SmartOffice365.UI.Converters">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:HasValueConverter x:Key="HasValueConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titre -->
+        <TextBlock Grid.Row="0" Text="Sélection du site SharePoint" 
+                   FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <!-- Bouton Charger -->
+        <Button Grid.Row="1" Content="Charger les sites" 
+                Command="{Binding LoadSitesCommand}" 
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
+                Margin="0,0,0,10"
+                Padding="10,5"/>
+
+        <!-- Indicateur de chargement -->
+        <ProgressBar Grid.Row="2" IsIndeterminate="True" 
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     Height="10" Margin="0,0,0,10"/>
+
+        <!-- Liste des sites -->
+        <ListBox Grid.Row="3" 
+                 ItemsSource="{Binding Sites}" 
+                 SelectedItem="{Binding SelectedSite}"
+                 DisplayMemberPath="DisplayName"
+                 Height="200" Margin="0,0,0,10"
+                 MouseDoubleClick="ListBox_MouseDoubleClick"
+                 KeyDown="ListBox_KeyDown">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0,0,0,1" BorderBrush="#333" Padding="5">
+                        <StackPanel>
+                            <TextBlock Text="{Binding DisplayName}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding WebUrl}" FontSize="11" Foreground="Gray"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Boutons d'action -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="✅ Sélectionner" Command="{Binding SelectSiteCommand}"
+                    IsEnabled="{Binding SelectedSite, Converter={StaticResource HasValueConverter}}"
+                    Margin="0,0,10,0" Padding="15,8"/>
+            
+            <Button Content="📋 Créer les listes" Command="{Binding ProvisionListsCommand}"
+                    IsEnabled="{Binding SelectedSite, Converter={StaticResource HasValueConverter}}"
+                    Margin="0,0,10,0" Padding="15,8"/>
+            
+            <Button Content="🔄 Rafraîchir" Command="{Binding LoadSitesCommand}"
+                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
+                    Padding="15,8"/>
+        </StackPanel>
+
+        <!-- Message de statut -->
+        <TextBlock Grid.Row="5" Text="{Binding StatusMessage}" 
+                   TextWrapping="Wrap" 
+                   Foreground="{Binding StatusMessage, Converter={StaticResource StatusToColorConverter}}"
+                   FontSize="13"/>
+    </Grid>
+</UserControl>
