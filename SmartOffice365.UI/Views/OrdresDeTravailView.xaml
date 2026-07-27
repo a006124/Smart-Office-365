@@ -1,0 +1,131 @@
+<UserControl x:Class="SmartOffice365.UI.Views.OrdresDeTravailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- DataGrid Liste des OT -->
+            <ColumnDefinition Width="2*" />
+            <!-- Panneau d'édition / détail latéral -->
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- =================================================================== -->
+        <!-- 1. DATAGRID DES ORDRES DE TRAVAIL                                  -->
+        <!-- =================================================================== -->
+        <Border Grid.Column="0" Style="{StaticResource GeminiCard}" Margin="0,0,8,0">
+            <DockPanel>
+
+                <!-- Barre de filtres multi-critères -->
+                <Grid DockPanel.Dock="Top" Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Style="{StaticResource GeminiInputBar}"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Tag="Filtrer par N° Aufnr, EQUNR, TPLNR, Titre, Responsable..." />
+
+                    <ComboBox Grid.Column="1" Style="{StaticResource GeminiComboBox}" Width="130" Margin="8,0,0,0"
+                              SelectedValue="{Binding SelectedStatutFilter}" VerticalAlignment="Center">
+                        <ComboBoxItem Content="Tous" IsSelected="True" />
+                        <ComboBoxItem Content="À Faire" />
+                        <ComboBoxItem Content="En cours" />
+                        <ComboBoxItem Content="Bloqué" />
+                        <ComboBoxItem Content="Terminé" />
+                    </ComboBox>
+
+                    <ComboBox Grid.Column="2" Style="{StaticResource GeminiComboBox}" Width="130" Margin="8,0,0,0"
+                              SelectedValue="{Binding SelectedPrioriteFilter}" VerticalAlignment="Center">
+                        <ComboBoxItem Content="Tous" IsSelected="True" />
+                        <ComboBoxItem Content="Critique" />
+                        <ComboBoxItem Content="Haute" />
+                        <ComboBoxItem Content="Normale" />
+                        <ComboBoxItem Content="Basse" />
+                    </ComboBox>
+                </Grid>
+
+                <!-- Table des OT -->
+                <DataGrid ItemsSource="{Binding FilteredOrdresDeTravail}"
+                          SelectedItem="{Binding SelectedOT, Mode=TwoWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="N° OT (Aufnr)" Binding="{Binding NumeroOT_Aufnr}" Width="110" />
+                        <DataGridTextColumn Header="Équipement (EQUNR)" Binding="{Binding NumeroEquipement_EQUNR}" Width="130" />
+                        <DataGridTextColumn Header="Poste Tech. (TPLNR)" Binding="{Binding PosteTechnique_TPLNR}" Width="130" />
+                        <DataGridTextColumn Header="Titre de la tâche" Binding="{Binding Titre}" Width="*" />
+                        <DataGridTextColumn Header="Statut" Binding="{Binding StatutShutdown}" Width="100" />
+                        <DataGridTextColumn Header="Priorité" Binding="{Binding Priorite}" Width="90" />
+                        <DataGridTemplateColumn Header="Avancement" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="8,0">
+                                        <ProgressBar Style="{StaticResource GeminiProgressBar}" Value="{Binding Avancement}" Maximum="100" Height="6" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Avancement, StringFormat='{}{0}%'}" FontSize="10" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Responsable" Binding="{Binding Responsable}" Width="120" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </DockPanel>
+        </Border>
+
+        <!-- =================================================================== -->
+        <!-- 2. PANNEAU DE MISE À JOUR RAPIDE LATÉRAL                           -->
+        <!-- =================================================================== -->
+        <Border Grid.Column="1" Style="{StaticResource GeminiCard}" Margin="8,0,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Fiche &amp; Mise à Jour SAP PM" Style="{StaticResource GeminiSectionTitle}" />
+
+                    <!-- Alerte si aucun OT sélectionné -->
+                    <Border Background="#28292A" CornerRadius="8" Padding="16" Margin="0,16"
+                            Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <!-- Formulaire dynamique -->
+                        <StackPanel>
+                            <TextBlock Text="N° OT SAP (Aufnr) :" Style="{StaticResource GeminiLabel}" />
+                            <TextBlock Text="{Binding SelectedOT.NumeroOT_Aufnr}" FontFamily="Segoe UI" FontWeight="Bold" FontSize="18" Foreground="{StaticResource AccentBlueBrush}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Équipement (EQUNR) :" Style="{StaticResource GeminiLabel}" />
+                            <TextBlock Text="{Binding SelectedOT.NumeroEquipement_EQUNR}" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Poste Technique (TPLNR) :" Style="{StaticResource GeminiLabel}" />
+                            <TextBlock Text="{Binding SelectedOT.PosteTechnique_TPLNR}" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,12" />
+
+                            <Separator Style="{StaticResource GeminiSeparator}" />
+
+                            <!-- Changement de Statut -->
+                            <TextBlock Text="Statut Shutdown :" Style="{StaticResource GeminiLabel}" />
+                            <ComboBox Style="{StaticResource GeminiComboBox}"
+                                      ItemsSource="{Binding Statuts}"
+                                      SelectedItem="{Binding SelectedOT.StatutShutdown}" Margin="0,0,0,16" />
+
+                            <!-- Barre slider d'avancement -->
+                            <TextBlock Text="{Binding SelectedOT.Avancement, StringFormat='Avancement : {0}%'}" Style="{StaticResource GeminiLabel}" />
+                            <Slider Value="{Binding SelectedOT.Avancement}" Minimum="0" Maximum="100" SmallChange="5" LargeChange="10" Margin="0,4,0,16" />
+
+                            <!-- Motif de Blocage si Bloqué -->
+                            <TextBlock Text="Motifs de Blocage (si bloqué) :" Style="{StaticResource GeminiLabel}" />
+                            <TextBox Style="{StaticResource GeminiInput}"
+                                     Text="{Binding SelectedOT.MotifsBlockage}"
+                                     Height="80" TextWrapping="Wrap" VerticalContentAlignment="Top" Margin="0,0,0,16" />
+
+                            <!-- Boutons d'action -->
+                            <Button Style="{StaticResource GeminiGradientButton}"
+                                    Content="💾 Enregistrer la Mise à Jour"
+                                    Command="{Binding SaveUpdateCommand}" Margin="0,0,0,8" />
+
+                            <Button Style="{StaticResource GeminiSecondaryButton}"
+                                    Content="🚨 Alerte Teams OT Bloqué"
+                                    Command="{Binding SendBlockedAlertCommand}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+    </Grid>
+</UserControl>

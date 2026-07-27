@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <RootNamespace>SmartOffice365.UI</RootNamespace>
+    <AssemblyName>SmartOffice365.UI</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Wpf.Ui" Version="3.0.5" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartOffice365.Core\SmartOffice365.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\OrdresDeTravailView.xaml.cs">
+      <DependentUpon>OrdresDeTravailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PrerequísView.xaml.cs">
+      <DependentUpon>PrerequísView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RessourcesView.xaml.cs">
+      <DependentUpon>RessourcesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ContactsView.xaml.cs">
+      <DependentUpon>ContactsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ConfigurationView.xaml.cs">
+      <DependentUpon>ConfigurationView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<UserControl x:Class="SmartOffice365.UI.Views.PrerequísView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource GeminiCard}">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="Suivi des Prérequis &amp; Consignations de Sécurité"
+                       Style="{StaticResource GeminiSectionTitle}" Margin="0,0,0,16" />
+
+            <DataGrid ItemsSource="{Binding PrerequisList}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="N° OT SAP" Binding="{Binding NumeroOT}" Width="120" />
+                    <DataGridTextColumn Header="Type de Permis / Consignation" Binding="{Binding Type}" Width="200" />
+                    <DataGridCheckBoxColumn Header="Validé" Binding="{Binding EstValide}" Width="80" />
+                    <DataGridTextColumn Header="Date Validation" Binding="{Binding DateValidation, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" Width="140" />
+                    <DataGridTextColumn Header="Signataire / Agent HSE" Binding="{Binding Signataire}" Width="160" />
+                    <DataGridTextColumn Header="Expiration" Binding="{Binding DateExpiration, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120" />
+                    <DataGridTextColumn Header="Commentaires" Binding="{Binding Commentaire}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
+</UserControl>

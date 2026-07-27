@@ -1,0 +1,81 @@
+<UserControl x:Class="SmartOffice365.UI.Views.ConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Paramètres de Configuration -->
+            <ColumnDefinition Width="1*" />
+            <!-- Journal de Provisioning -->
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- =================================================================== -->
+        <!-- 1. CONNEXION OFFICE 365 ET PROVISIONING SHAREPOINT                  -->
+        <!-- =================================================================== -->
+        <Border Grid.Column="0" Style="{StaticResource GeminiCard}" Margin="0,0,8,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Connexion Office 365 &amp; Provisioning" Style="{StaticResource GeminiSectionTitle}" />
+                    <TextBlock Text="Connectez-vous directement avec votre compte professionnel Office 365 pour piloter SharePoint et Teams."
+                               Style="{StaticResource GeminiSubTitle}" TextWrapping="Wrap" Margin="0,0,0,24" />
+
+                    <!-- Bouton de connexion Office 365 Direct -->
+                    <Border Background="#1A2F4A" CornerRadius="12" Padding="16" Margin="0,0,0,24" BorderBrush="{StaticResource AccentBlueBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="🔑 Authentification Directe M365" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" Margin="0,0,0,8" />
+                            <TextBlock Text="Utilise le système d'authentification sécurisé Microsoft pour ouvrir une fenêtre de connexion sans configuration Azure préalable."
+                                       FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,0,0,16" />
+                            <Button Style="{StaticResource GeminiGradientButton}"
+                                    Content="🌐 Se Connecter avec mon Compte Office 365"
+                                    Command="{Binding LoginOffice365Command}" Height="40" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- URL SharePoint -->
+                    <TextBlock Text="URL du site SharePoint cible :" Style="{StaticResource GeminiLabel}" />
+                    <TextBox Style="{StaticResource GeminiInputBar}" Text="{Binding SiteUrl, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,24" />
+
+                    <!-- Actions -->
+                    <Button Style="{StaticResource GeminiSecondaryButton}"
+                            Content="🔍 Tester l'accès au site SharePoint"
+                            Command="{Binding TestConnectionCommand}" Margin="0,0,0,12" />
+
+                    <!-- Bouton Provisioning principal -->
+                    <Button Style="{StaticResource GeminiGradientButton}"
+                            Content="⚡ Lancer le Provisioning des 6 Listes SharePoint"
+                            Command="{Binding StartProvisioningCommand}"
+                            Height="44" />
+
+                    <!-- Statut du Provisioning -->
+                    <Border Background="#1E1F20" CornerRadius="8" Padding="12" Margin="0,20,0,0">
+                        <TextBlock Text="{Binding StatusMessage}" FontFamily="Segoe UI" FontWeight="Bold"
+                                   Foreground="{StaticResource AccentBlueBrush}" TextWrapping="Wrap" />
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- =================================================================== -->
+        <!-- 2. CONSOLE / JOURNAL DE PROVISIONING                               -->
+        <!-- =================================================================== -->
+        <Border Grid.Column="1" Style="{StaticResource GeminiCard}" Margin="8,0,0,0">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Console de Log / Journal des Actions"
+                           Style="{StaticResource GeminiSectionTitle}" Margin="0,0,0,12" />
+
+                <Border Background="#131314" CornerRadius="8" Padding="12">
+                    <ListBox ItemsSource="{Binding LogEntries}"
+                             Background="Transparent" BorderThickness="0"
+                             Foreground="{StaticResource TextSecondaryBrush}"
+                             FontFamily="Consolas, Cascadia Code, Segoe UI" FontSize="12">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="2" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Border>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+<UserControl x:Class="SmartOffice365.UI.Views.ContactsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource GeminiCard}">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="Annuaire des Intervenants &amp; Habilitations"
+                       Style="{StaticResource GeminiSectionTitle}" Margin="0,0,0,16" />
+
+            <DataGrid ItemsSource="{Binding ContactsList}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="120" />
+                    <DataGridTextColumn Header="Prénom" Binding="{Binding Prenom}" Width="120" />
+                    <DataGridTextColumn Header="Rôle / Fonction" Binding="{Binding Role}" Width="160" />
+                    <DataGridTextColumn Header="Entreprise" Binding="{Binding Entreprise}" Width="150" />
+                    <DataGridTextColumn Header="Email Microsoft 365" Binding="{Binding Email}" Width="200" />
+                    <DataGridTextColumn Header="Téléphone" Binding="{Binding Telephone}" Width="130" />
+                    <DataGridTextColumn Header="Compte Teams" Binding="{Binding CompteTeams}" Width="180" />
+                    <DataGridTextColumn Header="Code Vendor SAP (LIFNR)" Binding="{Binding CodeVendorSapLIFNR}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
+</UserControl>

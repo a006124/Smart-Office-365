@@ -1,0 +1,234 @@
+<UserControl x:Class="SmartOffice365.UI.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- KPI Cards Row -->
+            <RowDefinition Height="Auto" />
+            <!-- Barre d'avancement globale -->
+            <RowDefinition Height="Auto" />
+            <!-- Vue Kanban (4 colonnes) -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- =================================================================== -->
+        <!-- 1. CARTES KPI (KPI CARDS GEMINI)                                   -->
+        <!-- =================================================================== -->
+        <UniformGrid Grid.Row="0" Columns="4" Margin="0,0,0,16">
+
+            <!-- KPI 1 : Avancement Global -->
+            <Border Style="{StaticResource GeminiKpiCard}">
+                <StackPanel>
+                    <TextBlock Text="AVANCEMENT GLOBAL" Style="{StaticResource GeminiLabel}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <TextBlock Text="{Binding Kpis.AvancementGlobal, StringFormat='{}{0:F0}%'}"
+                                   Style="{StaticResource GeminiKpiValue}" Foreground="{StaticResource AccentBlueBrush}" />
+                        <TextBlock Text="✦" FontFamily="{StaticResource GeminiIconFont}" FontSize="24"
+                                   Foreground="{StaticResource AccentPurpleBrush}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="Arrêt Unité Craquage U100" Style="{StaticResource GeminiSubTitle}" FontSize="11" />
+                </StackPanel>
+            </Border>
+
+            <!-- KPI 2 : OT Terminés -->
+            <Border Style="{StaticResource GeminiKpiCard}">
+                <StackPanel>
+                    <TextBlock Text="ORDRES TERMINÉS" Style="{StaticResource GeminiLabel}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <TextBlock Text="{Binding Kpis.OTTermines}"
+                                   Style="{StaticResource GeminiKpiValue}" Foreground="{StaticResource AccentGreenBrush}" />
+                        <TextBlock Text=" / " Style="{StaticResource GeminiKpiValue}" Foreground="{StaticResource TextMutedBrush}" />
+                        <TextBlock Text="{Binding Kpis.TotalOT}" Style="{StaticResource GeminiKpiValue}" Foreground="{StaticResource TextMutedBrush}" />
+                    </StackPanel>
+                    <TextBlock Text="Mise en sécurité validée" Style="{StaticResource GeminiSubTitle}" FontSize="11" />
+                </StackPanel>
+            </Border>
+
+            <!-- KPI 3 : OT Bloqués -->
+            <Border Style="{StaticResource GeminiKpiCard}">
+                <StackPanel>
+                    <TextBlock Text="OT BLOQUÉS (ALERTES)" Style="{StaticResource GeminiLabel}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <TextBlock Text="{Binding Kpis.OTBloques}"
+                                   Style="{StaticResource GeminiKpiValue}" Foreground="{StaticResource AccentRedBrush}" />
+                        <TextBlock Text="🚨" FontSize="20" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="Action urgente requise" Style="{StaticResource GeminiSubTitle}" FontSize="11" Foreground="{StaticResource AccentRedBrush}" />
+                </StackPanel>
+            </Border>
+
+            <!-- KPI 4 : OT En Retard -->
+            <Border Style="{StaticResource GeminiKpiCard}">
+                <StackPanel>
+                    <TextBlock Text="OT EN RETARD" Style="{StaticResource GeminiLabel}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <TextBlock Text="{Binding Kpis.OTEnRetard}"
+                                   Style="{StaticResource GeminiKpiValue}" Foreground="{StaticResource AccentOrangeBrush}" />
+                        <TextBlock Text="⚠️" FontSize="20" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="Dépassement planning" Style="{StaticResource GeminiSubTitle}" FontSize="11" />
+                </StackPanel>
+            </Border>
+
+        </UniformGrid>
+
+        <!-- =================================================================== -->
+        <!-- 2. BARRE D'AVANCEMENT GLOBALE AVEC BOUTON RAPPORT                   -->
+        <!-- =================================================================== -->
+        <Border Grid.Row="1" Style="{StaticResource GeminiCard}" Margin="0,0,0,16" Padding="16,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Avancement de l'Arrêt :"
+                           Style="{StaticResource GeminiSectionTitle}" Margin="0,0,16,0" VerticalAlignment="Center" />
+
+                <ProgressBar Grid.Column="1"
+                             Style="{StaticResource GeminiProgressBar}"
+                             Value="{Binding Kpis.AvancementGlobal}" Maximum="100"
+                             Height="10" VerticalAlignment="Center" />
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="16,0,0,0">
+                    <Button Style="{StaticResource GeminiSecondaryButton}"
+                            Content="🔄 Actualiser" Command="{Binding RefreshCommand}" Margin="0,0,8,0" />
+                    <Button Style="{StaticResource GeminiGradientButton}"
+                            Content="📧 Envoyer Rapport Teams/Outlook"
+                            Command="{Binding SendDailyReportCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- =================================================================== -->
+        <!-- 3. VUE KANBAN (4 COLONNES)                                           -->
+        <!-- =================================================================== -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Colonne 1 : À Faire -->
+            <Border Grid.Column="0" Style="{StaticResource GeminiCard}" Margin="4">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource BadgeStatut_AFaire}" Margin="0,0,8,0">
+                                <TextBlock Text="⚪ À FAIRE" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                            </Border>
+                            <TextBlock Text="{Binding OtAfaire.Count, StringFormat='({0})'}" Style="{StaticResource GeminiSubTitle}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding OtAfaire}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource GeminiCard}" Margin="0,4" Padding="12" Background="#1E1F20">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding NumeroOT_Aufnr}" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" FontSize="12" />
+                                            <TextBlock Text="{Binding Titre}" FontFamily="Segoe UI" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding Responsable, StringFormat='Resp: {0}'}" FontSize="11" Foreground="{StaticResource TextMutedBrush}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- Colonne 2 : En Cours -->
+            <Border Grid.Column="1" Style="{StaticResource GeminiCard}" Margin="4">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource BadgeStatut_EnCours}" Margin="0,0,8,0">
+                                <TextBlock Text="🔵 EN COURS" FontSize="11" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" />
+                            </Border>
+                            <TextBlock Text="{Binding OtEnCours.Count, StringFormat='({0})'}" Style="{StaticResource GeminiSubTitle}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding OtEnCours}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource GeminiCard}" Margin="0,4" Padding="12" Background="#1A2F4A">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding NumeroOT_Aufnr}" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" FontSize="12" />
+                                            <TextBlock Text="{Binding Titre}" FontFamily="Segoe UI" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4" TextWrapping="Wrap" />
+                                            <ProgressBar Style="{StaticResource GeminiProgressBar}" Value="{Binding Avancement}" Maximum="100" Margin="0,6" Height="4" />
+                                            <TextBlock Text="{Binding Avancement, StringFormat='{0}%'}" FontSize="11" Foreground="{StaticResource AccentBlueBrush}" HorizontalAlignment="Right" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- Colonne 3 : Bloqués (Alertes) -->
+            <Border Grid.Column="2" Style="{StaticResource GeminiCard}" Margin="4" BorderBrush="{StaticResource AccentRedBrush}">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource BadgeStatut_Bloque}" Margin="0,0,8,0">
+                                <TextBlock Text="🚨 BLOQUÉ" FontSize="11" FontWeight="Bold" Foreground="{StaticResource AccentRedBrush}" />
+                            </Border>
+                            <TextBlock Text="{Binding OtBloques.Count, StringFormat='({0})'}" Style="{StaticResource GeminiSubTitle}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding OtBloques}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource GeminiCard}" Margin="0,4" Padding="12" Background="#3F1616">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding NumeroOT_Aufnr}" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource AccentRedBrush}" FontSize="12" />
+                                            <TextBlock Text="{Binding Titre}" FontFamily="Segoe UI" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding MotifsBlockage, StringFormat='Motif: {0}'}" FontSize="11" Foreground="#FCA5A5" TextWrapping="Wrap" Margin="0,4,0,0" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- Colonne 4 : Terminés -->
+            <Border Grid.Column="3" Style="{StaticResource GeminiCard}" Margin="4">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource BadgeStatut_Termine}" Margin="0,0,8,0">
+                                <TextBlock Text="✅ TERMINÉ" FontSize="11" FontWeight="Bold" Foreground="{StaticResource AccentGreenBrush}" />
+                            </Border>
+                            <TextBlock Text="{Binding OtTermines.Count, StringFormat='({0})'}" Style="{StaticResource GeminiSubTitle}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding OtTermines}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource GeminiCard}" Margin="0,4" Padding="12" Background="#14391F">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding NumeroOT_Aufnr}" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource AccentGreenBrush}" FontSize="12" />
+                                            <TextBlock Text="{Binding Titre}" FontFamily="Segoe UI" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4" TextWrapping="Wrap" />
+                                            <TextBlock Text="Avancement: 100%" FontSize="11" Foreground="{StaticResource AccentGreenBrush}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,492 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- =================================================================== -->
+    <!-- 1. PALETTE DE COULEURS & PINCEAUX (STYLE GEMINI DARK)               -->
+    <!-- =================================================================== -->
+
+    <!-- Arrière-plans principaux -->
+    <Color x:Key="GeminiBgColor">#131314</Color>
+    <Color x:Key="GeminiSidebarBgColor">#1E1F20</Color>
+    <Color x:Key="GeminiCardBgColor">#28292A</Color>
+    <Color x:Key="GeminiCardHoverBgColor">#333537</Color>
+    <Color x:Key="GeminiTopBarBgColor">#1A1B1C</Color>
+
+    <!-- Couleurs d'accentuation (Dégradé doux type IA) -->
+    <Color x:Key="AccentBlueColor">#A8C7FA</Color>
+    <Color x:Key="AccentPurpleColor">#D3E3FD</Color>
+    <Color x:Key="AccentBorderColor">#444746</Color>
+    <Color x:Key="AccentGreenColor">#22C55E</Color>
+    <Color x:Key="AccentRedColor">#EF4444</Color>
+    <Color x:Key="AccentOrangeColor">#F59E0B</Color>
+
+    <!-- Textes -->
+    <Color x:Key="TextPrimaryColor">#E3E2E6</Color>
+    <Color x:Key="TextSecondaryColor">#C4C6C0</Color>
+    <Color x:Key="TextMutedColor">#8E918F</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="GeminiBgBrush" Color="{StaticResource GeminiBgColor}" />
+    <SolidColorBrush x:Key="GeminiSidebarBgBrush" Color="{StaticResource GeminiSidebarBgColor}" />
+    <SolidColorBrush x:Key="GeminiCardBgBrush" Color="{StaticResource GeminiCardBgColor}" />
+    <SolidColorBrush x:Key="GeminiCardHoverBgBrush" Color="{StaticResource GeminiCardHoverBgColor}" />
+    <SolidColorBrush x:Key="GeminiTopBarBgBrush" Color="{StaticResource GeminiTopBarBgColor}" />
+    <SolidColorBrush x:Key="AccentBlueBrush" Color="{StaticResource AccentBlueColor}" />
+    <SolidColorBrush x:Key="AccentPurpleBrush" Color="{StaticResource AccentPurpleColor}" />
+    <SolidColorBrush x:Key="AccentBorderBrush" Color="{StaticResource AccentBorderColor}" />
+    <SolidColorBrush x:Key="AccentGreenBrush" Color="{StaticResource AccentGreenColor}" />
+    <SolidColorBrush x:Key="AccentRedBrush" Color="{StaticResource AccentRedColor}" />
+    <SolidColorBrush x:Key="AccentOrangeBrush" Color="{StaticResource AccentOrangeColor}" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
+    <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
+
+    <!-- Dégradé Signature Gemini (Boutons d'action / Highlights) -->
+    <LinearGradientBrush x:Key="GeminiGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#7CACF8" Offset="0.0" />
+        <GradientStop Color="#B3C5FF" Offset="0.5" />
+        <GradientStop Color="#E8B3FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Dégradé barre de progression -->
+    <LinearGradientBrush x:Key="GeminiProgressGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#7CACF8" Offset="0.0" />
+        <GradientStop Color="#E8B3FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- =================================================================== -->
+    <!-- 2. TYPOGRAPHIE & RAYONS D'ARRONDI                                   -->
+    <!-- =================================================================== -->
+    <CornerRadius x:Key="GeminiCardCornerRadius">16</CornerRadius>
+    <CornerRadius x:Key="GeminiButtonCornerRadius">20</CornerRadius>
+    <CornerRadius x:Key="GeminiInputCornerRadius">24</CornerRadius>
+    <CornerRadius x:Key="GeminiSmallCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="GeminiBadgeCornerRadius">12</CornerRadius>
+
+    <FontFamily x:Key="GeminiFontFamily">Segoe UI Variable, Segoe UI, Roboto, sans-serif</FontFamily>
+    <FontFamily x:Key="GeminiIconFont">Segoe MDL2 Assets</FontFamily>
+
+    <!-- =================================================================== -->
+    <!-- 3. STYLE DE CARTE / PANEL FLOTTANT                                  -->
+    <!-- =================================================================== -->
+    <Style x:Key="GeminiCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource GeminiCardCornerRadius}" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin" Value="8" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource GeminiCardHoverBgBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- KPI Card style -->
+    <Style x:Key="GeminiKpiCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource GeminiCardCornerRadius}" />
+        <Setter Property="Padding" Value="24,20" />
+        <Setter Property="Margin" Value="6" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#000000" Opacity="0.3" BlurRadius="12" ShadowDepth="2" Direction="270" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource GeminiCardHoverBgBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 4. STYLE DE BOUTON PRINCIPAL                                        -->
+    <!-- =================================================================== -->
+    <Style x:Key="GeminiButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="#131314" />
+        <Setter Property="Background" Value="{StaticResource AccentBlueBrush}" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{StaticResource GeminiButtonCornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.85" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.70" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource TextMutedBrush}" />
+                            <Setter Property="Foreground" Value="#28292A" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Bouton dégradé Gemini -->
+    <Style x:Key="GeminiGradientButton" TargetType="Button" BasedOn="{StaticResource GeminiButton}">
+        <Setter Property="Background" Value="{StaticResource GeminiGradientBrush}" />
+        <Setter Property="Foreground" Value="#131314" />
+    </Style>
+
+    <!-- Bouton secondaire (ghost) -->
+    <Style x:Key="GeminiSecondaryButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource GeminiButtonCornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Bouton icône de la sidebar -->
+    <Style x:Key="SidebarNavButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{StaticResource GeminiSmallCornerRadius}"
+                            Padding="0,8" Margin="4,2">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock x:Name="icon"
+                                       FontFamily="{StaticResource GeminiIconFont}"
+                                       FontSize="20"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       Text="{TemplateBinding Tag}" />
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       FontFamily="{StaticResource GeminiFontFamily}"
+                                       FontSize="10"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,4,0,0"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+                            <Setter TargetName="icon" Property="Foreground" Value="{StaticResource AccentBlueBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Bouton sidebar actif -->
+    <Style x:Key="SidebarNavButtonActive" TargetType="Button" BasedOn="{StaticResource SidebarNavButton}">
+        <Setter Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBlueBrush}" />
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 5. BARRE DE RECHERCHE & CHAMPS DE SAISIE                           -->
+    <!-- =================================================================== -->
+    <Style x:Key="GeminiInputBar" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="CaretBrush" Value="{StaticResource AccentBlueBrush}" />
+        <Setter Property="SelectionBrush" Value="{StaticResource AccentBlueBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource GeminiInputCornerRadius}">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden"
+                                      Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentBlueBrush}" />
+                            <Setter TargetName="border" Property="BorderThickness" Value="1.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Input standard avec coins moins arrondis -->
+    <Style x:Key="GeminiInput" TargetType="TextBox" BasedOn="{StaticResource GeminiInputBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource GeminiSmallCornerRadius}">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden"
+                                      Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentBlueBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ComboBox style Gemini -->
+    <Style x:Key="GeminiComboBox" TargetType="ComboBox">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="12,8" />
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 6. STYLES TEXTE ET TITRES                                           -->
+    <!-- =================================================================== -->
+    <Style x:Key="GeminiHeaderTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="GeminiSubTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="GeminiSectionTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+    </Style>
+
+    <Style x:Key="GeminiLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="GeminiKpiValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBlueBrush}" />
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 7. PROGRESSBAR STYLE GEMINI                                         -->
+    <!-- =================================================================== -->
+    <Style x:Key="GeminiProgressBar" TargetType="ProgressBar">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Background" Value="{StaticResource GeminiCardHoverBgBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource GeminiGradientBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border x:Name="PART_Track"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="3" />
+                        <Border x:Name="PART_Indicator"
+                                Background="{StaticResource GeminiProgressGradient}"
+                                CornerRadius="3"
+                                HorizontalAlignment="Left" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 8. SÉPARATEUR                                                       -->
+    <!-- =================================================================== -->
+    <Style x:Key="GeminiSeparator" TargetType="Separator">
+        <Setter Property="Background" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="0,8" />
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 9. SCROLLBAR DISCRÈTE                                               -->
+    <!-- =================================================================== -->
+    <Style TargetType="ScrollBar">
+        <Setter Property="Width" Value="6" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid>
+                        <Track x:Name="PART_Track" IsDirectionReversed="True">
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Border Background="#444746" CornerRadius="3" />
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 10. BADGES DE STATUT                                                -->
+    <!-- =================================================================== -->
+    <Style x:Key="BadgeStatut_EnCours" TargetType="Border">
+        <Setter Property="Background" Value="#1E3A5F" />
+        <Setter Property="CornerRadius" Value="{StaticResource GeminiBadgeCornerRadius}" />
+        <Setter Property="Padding" Value="10,4" />
+    </Style>
+    <Style x:Key="BadgeStatut_Bloque" TargetType="Border">
+        <Setter Property="Background" Value="#3F1616" />
+        <Setter Property="CornerRadius" Value="{StaticResource GeminiBadgeCornerRadius}" />
+        <Setter Property="Padding" Value="10,4" />
+    </Style>
+    <Style x:Key="BadgeStatut_Termine" TargetType="Border">
+        <Setter Property="Background" Value="#14391F" />
+        <Setter Property="CornerRadius" Value="{StaticResource GeminiBadgeCornerRadius}" />
+        <Setter Property="Padding" Value="10,4" />
+    </Style>
+    <Style x:Key="BadgeStatut_AFaire" TargetType="Border">
+        <Setter Property="Background" Value="#2A2B2C" />
+        <Setter Property="CornerRadius" Value="{StaticResource GeminiBadgeCornerRadius}" />
+        <Setter Property="Padding" Value="10,4" />
+    </Style>
+
+    <!-- =================================================================== -->
+    <!-- 11. DATAGRID STYLE GEMINI                                           -->
+    <!-- =================================================================== -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource AccentBorderBrush}" />
+        <Setter Property="RowBackground" Value="Transparent" />
+        <Setter Property="AlternatingRowBackground" Value="#1C1D1E" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="RowHeight" Value="44" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+    </Style>
+
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource GeminiSidebarBgBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource GeminiFontFamily}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBorderBrush}" />
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="Transparent" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource GeminiCardBgBrush}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#1A2F4A" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="DataGridCell">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="12,0" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

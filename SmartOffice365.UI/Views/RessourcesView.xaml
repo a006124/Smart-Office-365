@@ -1,0 +1,24 @@
+<UserControl x:Class="SmartOffice365.UI.Views.RessourcesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource GeminiCard}">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="Gestion des Ressources &amp; Prestataires"
+                       Style="{StaticResource GeminiSectionTitle}" Margin="0,0,0,16" />
+
+            <DataGrid ItemsSource="{Binding RessourcesList}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="N° OT SAP" Binding="{Binding NumeroOT}" Width="120" />
+                    <DataGridTextColumn Header="Type de Ressource" Binding="{Binding Type}" Width="140" />
+                    <DataGridTextColumn Header="Entreprise Prestataire" Binding="{Binding EntreprisePrestataire}" Width="180" />
+                    <DataGridTextColumn Header="Description / Spécification" Binding="{Binding Description}" Width="*" />
+                    <DataGridTextColumn Header="Qté Prévue" Binding="{Binding QuantitePrevue}" Width="90" />
+                    <DataGridTextColumn Header="Qté Réelle" Binding="{Binding QuantiteReelle}" Width="90" />
+                    <DataGridTextColumn Header="Unité" Binding="{Binding Unite}" Width="70" />
+                    <DataGridCheckBoxColumn Header="Disponible" Binding="{Binding EstDisponible}" Width="90" />
+                    <DataGridTextColumn Header="Remarques" Binding="{Binding Commentaire}" Width="180" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
+</UserControl>
