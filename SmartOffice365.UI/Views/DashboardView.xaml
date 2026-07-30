@@ -1,6 +1,101 @@
 <UserControl x:Class="SmartOffice365.UI.Views.DashboardView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <!-- =================================================================== -->
+        <!-- PINCEAUX DE COULEUR (BRUSHES) MANQUANTS                             -->
+        <!-- =================================================================== -->
+        <SolidColorBrush x:Key="AccentBlueBrush" Color="#58A6FF"/>
+        <SolidColorBrush x:Key="AccentPurpleBrush" Color="#AB70FF"/>
+        <SolidColorBrush x:Key="AccentGreenBrush" Color="#3FB950"/>
+        <SolidColorBrush x:Key="AccentRedBrush" Color="#F85149"/>
+        <SolidColorBrush x:Key="AccentOrangeBrush" Color="#D29922"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#E6EDF3"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#8B949E"/>
+        <SolidColorBrush x:Key="TextMutedBrush" Color="#484F58"/>
+
+        <FontFamily x:Key="GeminiIconFont">Segoe UI</FontFamily>
+
+        <!-- =================================================================== -->
+        <!-- STYLES DE CARTES ET BOUTONS (MAPPÉS SUR GEMINITHEME)                -->
+        <!-- =================================================================== -->
+        <!-- Carte KPI basée sur CardStyle -->
+        <Style x:Key="GeminiKpiCard" TargetType="Border" BasedOn="{StaticResource CardStyle}">
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Padding" Value="12"/>
+        </Style>
+
+        <!-- Carte standard basée sur CardStyle -->
+        <Style x:Key="GeminiCard" TargetType="Border" BasedOn="{StaticResource CardStyle}"/>
+
+        <!-- Boutons basés sur les styles existants -->
+        <Style x:Key="GeminiSecondaryButton" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}"/>
+        <Style x:Key="GeminiGradientButton" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}"/>
+
+        <!-- Barre de progression -->
+        <Style x:Key="GeminiProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}"/>
+
+        <!-- =================================================================== -->
+        <!-- STYLES DE TEXTE                                                     -->
+        <!-- =================================================================== -->
+        <Style x:Key="GeminiLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="GeminiKpiValue" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        </Style>
+
+        <Style x:Key="GeminiSubTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <Style x:Key="GeminiSectionTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- =================================================================== -->
+        <!-- STYLES DES BADGES DE STATUT KANBAN                                  -->
+        <!-- =================================================================== -->
+        <Style x:Key="BadgeStatut_AFaire" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource SurfaceBackground}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <Style x:Key="BadgeStatut_EnCours" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource TertiaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <Style x:Key="BadgeStatut_Bloque" TargetType="Border">
+            <Setter Property="Background" Value="#3F1616"/>
+            <Setter Property="BorderBrush" Value="{StaticResource DangerColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <Style x:Key="BadgeStatut_Termine" TargetType="Border">
+            <Setter Property="Background" Value="#14391F"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <!-- KPI Cards Row -->

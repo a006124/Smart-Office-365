@@ -27,23 +27,19 @@ namespace SmartOffice365.Core.Services
         public async Task SendCriticalOTAlertAsync(string[] recipients, OrdreDeTravailEntity ot)
         {
             var htmlBody = $@"
-            <html>
-            <body style=""font-family: Segoe UI, sans-serif; background:#f5f5f5; padding:20px;"">
-            <div style=""background:#fff; border-radius:12px; padding:24px; border-left:4px solid #ef4444;"">
-              <h2 style=""color:#ef4444;"">🚨 Alerte — OT Critique Bloqué</h2>
-              <table style=""width:100%; border-collapse:collapse;"">
-                <tr><td><b>N° OT (Aufnr)</b></td><td>{ot.NumeroOT_Aufnr}</td></tr>
-                <tr><td><b>Équipement (EQUNR)</b></td><td>{ot.NumeroEquipement_EQUNR}</td></tr>
-                <tr><td><b>Poste technique</b></td><td>{ot.PosteTechnique_TPLNR}</td></tr>
-                <tr><td><b>Priorité</b></td><td style=""color:#ef4444;font-weight:bold;"">{ot.Priorite}</td></tr>
-                <tr><td><b>Avancement</b></td><td>{ot.Avancement}%</td></tr>
-                <tr><td><b>Motif de blocage</b></td><td>{ot.MotifsBlockage}</td></tr>
-                <tr><td><b>Responsable</b></td><td>{ot.Responsable}</td></tr>
-              </table>
-            </div>
-            </body>
-            </html>";
+🚨 Alerte — OT Critique Bloqué
+-----------------------------
 
+|  |  |
+| --- | --- |
+| **N° OT (Aufnr)** | {ot.NumeroOT_Aufnr} |
+| **Équipement (EQUNR)** | {ot.NumeroEquipement_EQUNR} |
+| **Poste technique** | {ot.PosteTechnique_TPLNR} |
+| **Priorité** | {ot.Priorite} |
+| **Avancement** | {ot.Avancement}% |
+| **Motif de blocage** | {ot.MotifsBlockage} |
+| **Responsable** | {ot.Responsable} |
+";
             await SendEmailAsync(recipients, $"[Smart Office 365] 🚨 OT Bloqué : {ot.NumeroOT_Aufnr} — {ot.Titre}", htmlBody);
         }
 
@@ -75,44 +71,38 @@ namespace SmartOffice365.Core.Services
             if (otsEnRetard != null && otsEnRetard.Any())
             {
                 var retardRows = string.Join("", otsEnRetard.Select(o =>
-                    $"<tr><td>{o.NumeroOT_Aufnr}</td><td>{o.Titre}</td><td>{o.Responsable}</td><td style=\"color:#ef4444;\">{o.Avancement}%</td></tr>"));
+                    $"| {o.NumeroOT_Aufnr} | {o.Titre} | {o.Responsable} | {o.Avancement}% |\n"));
 
                 retardSection = $@"
-                <h3 style=""color:#f59e0b;"">⚠️ OT en retard ({otsEnRetard.Count})</h3>
-                <table style=""width:100%; border-collapse:collapse; background:#28292a; border-radius:8px;"">
-                  <thead><tr style=""color:#8e918f;""><th>N° OT</th><th>Titre</th><th>Responsable</th><th>Avancement</th></tr></thead>
-                  <tbody>{retardRows}</tbody>
-                </table>";
+### ⚠️ OT en retard ({otsEnRetard.Count})
+
+| N° OT | Titre | Responsable | Avancement |
+| --- | --- | --- | --- |
+{retardRows}
+";
             }
 
             return $@"
-            <html>
-            <body style=""font-family: Segoe UI, sans-serif; background:#0f0f10; color:#e3e2e6; padding:20px;"">
-            <div style=""max-width:700px; margin:auto; background:#1e1f20; border-radius:16px; padding:32px;"">
-              <h1 style=""background:linear-gradient(135deg,#7cacf8,#e8b3ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"">Smart Office 365</h1>
-              <h2>Rapport Journalier — {DateTime.Now:dddd dd MMMM yyyy}</h2>
-              <div style=""display:flex; gap:16px; margin:24px 0;"">
-                <div style=""flex:1; background:#28292a; border-radius:12px; padding:16px; text-align:center;"">
-                  <div style=""font-size:36px; font-weight:bold; color:#a8c7fa;"">{kpis.AvancementGlobal:F0}%</div>
-                  <div style=""color:#8e918f;"">Avancement global</div>
-                </div>
-                <div style=""flex:1; background:#28292a; border-radius:12px; padding:16px; text-align:center;"">
-                  <div style=""font-size:36px; font-weight:bold; color:#ef4444;"">{kpis.OTBloques}</div>
-                  <div style=""color:#8e918f;"">OT Bloqués</div>
-                </div>
-                <div style=""flex:1; background:#28292a; border-radius:12px; padding:16px; text-align:center;"">
-                  <div style=""font-size:36px; font-weight:bold; color:#f59e0b;"">{kpis.OTEnRetard}</div>
-                  <div style=""color:#8e918f;"">OT En retard</div>
-                </div>
-                <div style=""flex:1; background:#28292a; border-radius:12px; padding:16px; text-align:center;"">
-                  <div style=""font-size:36px; font-weight:bold; color:#22c55e;"">{kpis.OTTermines}</div>
-                  <div style=""color:#8e918f;"">OT Terminés</div>
-                </div>
-              </div>
-              {retardSection}
-            </div>
-            </body>
-            </html>";
+Smart Office 365
+================
+
+Rapport Journalier — {DateTime.Now:dddd dd MMMM yyyy}
+-----------------------------------------------------
+
+{kpis.AvancementGlobal:F0}%
+Avancement global
+
+{kpis.OTBloques}
+OT Bloqués
+
+{kpis.OTEnRetard}
+OT En retard
+
+{kpis.OTTermines}
+OT Terminés
+
+{retardSection}
+";
         }
     }
 }

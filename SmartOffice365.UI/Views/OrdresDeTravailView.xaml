@@ -1,6 +1,60 @@
 <UserControl x:Class="SmartOffice365.UI.Views.OrdresDeTravailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <!-- =================================================================== -->
+        <!-- PINCEAUX DE COULEUR ET CONVERTISSEURS                               -->
+        <!-- =================================================================== -->
+        <SolidColorBrush x:Key="AccentBlueBrush" Color="#58A6FF"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#E6EDF3"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <!-- =================================================================== -->
+        <!-- STYLES MAPPÉS SUR GEMINITHEME.XAML                                  -->
+        <!-- =================================================================== -->
+        <!-- Cartes basées sur CardStyle -->
+        <Style x:Key="GeminiCard" TargetType="Border" BasedOn="{StaticResource CardStyle}"/>
+
+        <!-- Champs de saisie basés sur le style TextBox par défaut -->
+        <Style x:Key="GeminiInputBar" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"/>
+        <Style x:Key="GeminiInput" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"/>
+
+        <!-- ComboBox basée sur le style ComboBox par défaut -->
+        <Style x:Key="GeminiComboBox" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"/>
+
+        <!-- Barre de progression basée sur le style ProgressBar par défaut -->
+        <Style x:Key="GeminiProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}"/>
+
+        <!-- Boutons basés sur les styles existants -->
+        <Style x:Key="GeminiGradientButton" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}"/>
+        <Style x:Key="GeminiSecondaryButton" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}"/>
+
+        <!-- Séparateur -->
+        <Style x:Key="GeminiSeparator" TargetType="Separator">
+            <Setter Property="Background" Value="{StaticResource BorderColor}"/>
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Margin" Value="0,12"/>
+        </Style>
+
+        <!-- =================================================================== -->
+        <!-- STYLES DE TEXTE                                                     -->
+        <!-- =================================================================== -->
+        <Style x:Key="GeminiSectionTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <Style x:Key="GeminiLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <!-- DataGrid Liste des OT -->

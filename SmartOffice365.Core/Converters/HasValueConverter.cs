@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SmartOffice365.UI.Converters
+namespace SmartOffice365.Core.Converters
 {
     /// <summary>
     /// Vérifie si une valeur est null. Retourne True si la valeur n'est pas null

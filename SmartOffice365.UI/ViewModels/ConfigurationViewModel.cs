@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks; // AJOUTÉ
 using System.Windows.Input;
 using SmartOffice365.Core.Interfaces;
 using SmartOffice365.UI.ViewModels.Base;
@@ -10,7 +12,7 @@ namespace SmartOffice365.UI.ViewModels
         private readonly ISharePointProvisioningService _provisioningService;
         private readonly IGraphAuthService _authService;
 
-        private string _siteUrl = "https://votre-tenant.sharepoint.com/sites/SmartMaintenance";
+        private string _siteUrl = "https://grouperenault.sharepoint.com/sites/ShutdownMaintenance/";
         private string _statusMessage = "Prêt à exécuter le provisioning sur le site SharePoint.";
         private bool _isProvisioning;
 
@@ -44,15 +46,27 @@ namespace SmartOffice365.UI.ViewModels
             _provisioningService = provisioningService;
             _authService = authService;
 
-            StartProvisioningCommand = new AsyncRelayCommand(StartProvisioningAsync);
-            TestConnectionCommand = new AsyncRelayCommand(TestConnectionAsync);
+            StartProvisioningCommand = new SmartOffice365.UI.ViewModels.Base.RelayCommand(async () => await StartProvisioningAsync());
+            TestConnectionCommand = new SmartOffice365.UI.ViewModels.Base.RelayCommand(async () => await TestConnectionAsync());
         }
 
         private async Task StartProvisioningAsync()
         {
+            if (string.IsNullOrWhiteSpace(SiteUrl))
+            {
+                StatusMessage = "❌ Veuillez saisir une URL SharePoint valide.";
+                return;
+            }
+
+            // On informe le service d'authentification de la nouvelle URL (qui va recalculer le Tenant ID si besoin)
+            _authService.UpdateSharePointUrl(SiteUrl);
+
             IsProvisioning = true;
             LogEntries.Clear();
             LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🚀 Démarrage du provisioning des listes SharePoint sur {SiteUrl}...");
+
+            // CORRECTION : On transmet l'URL saisie au service avant de lancer le provisioning
+            _provisioningService.SetSiteId(SiteUrl);
 
             var progress = new Progress<string>(msg =>
             {
@@ -86,9 +100,21 @@ namespace SmartOffice365.UI.ViewModels
 
         private async Task TestConnectionAsync()
         {
+            if (string.IsNullOrWhiteSpace(SiteUrl))
+            {
+                StatusMessage = "❌ Veuillez saisir une URL SharePoint valide.";
+                return;
+            }
+
             LogEntries.Add($"[{DateTime.Now:HH:mm:ss}] 🔍 Test d'accès au site SharePoint {SiteUrl}...");
             try
             {
+                // On informe le service d'authentification de la nouvelle URL (qui va recalculer le Tenant ID si besoin)
+                _authService.UpdateSharePointUrl(SiteUrl);
+
+                // CORRECTION : On transmet l'URL saisie au service avant de lancer le test
+                _provisioningService.SetSiteId(SiteUrl);
+
                 var connected = await _provisioningService.TestSiteConnectionAsync();
                 if (connected)
                 {

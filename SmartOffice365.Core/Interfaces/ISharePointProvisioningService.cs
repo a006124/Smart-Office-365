@@ -5,17 +5,28 @@ using SmartOffice365.Core.Models;
 namespace SmartOffice365.Core.Interfaces
 {
     /// <summary>
-    /// Service de provisioning automatique des listes SharePoint
+    /// Service de création automatique (provisioning) des listes SharePoint
     /// </summary>
     public interface ISharePointProvisioningService
     {
-        /// <summary>Vérifie l'accessibilité du site SharePoint configuré</summary>
+        /// <summary>
+        /// Initialise le service avec l'ID ou l'URL du site sélectionné
+        /// </summary>
+        void SetSiteId(string siteId); // ◄--- AJOUTEZ CETTE LIGNE
+
+        /// <summary>
+        /// Teste la connexion au site SharePoint
+        /// </summary>
         Task<bool> TestSiteConnectionAsync();
 
-        /// <summary>Crée les 6 listes SharePoint requises si elles n'existent pas</summary>
-        Task<SharePointProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null);
-
-        /// <summary>Vérifie l'existence d'une liste par son nom</summary>
+        /// <summary>
+        /// Vérifie si une liste existe déjà sur le site
+        /// </summary>
         Task<bool> ListExistsAsync(string listName);
+
+        /// <summary>
+        /// Lance la création de toutes les listes requises
+        /// </summary>
+        Task<SharePointProvisioningResult> ProvisionAllListsAsync(IProgress<string>? progress = null);
     }
 }

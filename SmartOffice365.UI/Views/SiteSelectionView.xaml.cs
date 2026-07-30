@@ -9,7 +9,7 @@ namespace SmartOffice365.UI.Views
     /// <summary>
     /// Logique d'interaction pour SiteSelectionView.xaml
     /// </summary>
-    public partial class SiteSelectionView : UserControl
+    public partial class SiteSelectionView : System.Windows.Controls.UserControl
     {
         public SiteSelectionView()
         {
@@ -26,12 +26,15 @@ namespace SmartOffice365.UI.Views
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // Chargement automatique des sites lorsque la vue s'affiche
+            // Le code est maintenant réactivé et fonctionnel !
             if (ViewModel != null && !ViewModel.IsLoading && ViewModel.Sites.Count == 0)
             {
                 await ViewModel.LoadSitesCommand.ExecuteAsync(null);
             }
         }
+
+
+
 
         // Gestion du double-clic sur un site pour le sélectionner
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -43,9 +46,9 @@ namespace SmartOffice365.UI.Views
         }
 
         // Gestion de la touche Entrée sur la liste pour sélectionner
-        private void ListBox_KeyDown(object sender, KeyEventArgs e)
+        private void ListBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && ViewModel?.SelectedSite != null)
+            if (e.Key == System.Windows.Input.Key.Enter && ViewModel?.SelectedSite != null)
             {
                 ViewModel.SelectSiteCommand.Execute(null);
                 e.Handled = true;

@@ -109,7 +109,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{StaticResource MutedText}"/>
                             <Setter Property="Foreground" Value="{StaticResource DisabledText}"/>
-                            <Setter Property="Cursor" Value="Default"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -148,7 +148,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
-                            <Setter Property="Cursor" Value="Default"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -191,7 +191,11 @@
         <Setter Property="Padding" Value="10,8"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
         <Setter Property="CaretBrush" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource AccentColor}" Opacity="0.4"/>
+        <Setter Property="SelectionBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="#58A6FF" Opacity="0.4"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
@@ -209,7 +213,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
-                            <Setter Property="Cursor" Value="Default"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -226,7 +230,11 @@
         <Setter Property="Padding" Value="10,8"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
         <Setter Property="CaretBrush" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource AccentColor}" Opacity="0.4"/>
+        <Setter Property="SelectionBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="#58A6FF" Opacity="0.4"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="AcceptsReturn" Value="True"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
@@ -292,9 +300,21 @@
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                      CornerRadius="4"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       ClickMode="Press">
+                            <!-- On définit un Template pour le ToggleButton afin d'utiliser un Border avec CornerRadius -->
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="4">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+
+                            <!-- Contenu du bouton (Texte sélectionné + Flèche) -->
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -314,6 +334,7 @@
                                       Data="M 0 0 L 4 4 L 8 0 Z"/>
                             </Grid>
                         </ToggleButton>
+
                         <Popup x:Name="Popup"
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                Placement="Bottom"
@@ -384,7 +405,11 @@
                             <Setter Property="Background" Value="{StaticResource TertiaryBackground}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{StaticResource AccentColor}" Opacity="0.2"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#58A6FF" Opacity="0.2"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -423,7 +448,11 @@
         <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource AccentColor}" Opacity="0.2"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#58A6FF" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource TertiaryBackground}"/>
@@ -442,6 +471,9 @@
     <!-- ================================================== -->
     <!-- STYLES DES TABCONTROL / TABITEM                   -->
     <!-- ================================================== -->
+    <!-- ================================================== -->
+    <!-- STYLES DES TABCONTROL / TABITEM                   -->
+    <!-- ================================================== -->
     <Style TargetType="TabItem">
         <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
@@ -450,7 +482,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Border Background="{TemplateBinding Background}"
+                    <!-- CORRECTION : Ajout de x:Name="TabBorder" ici -->
+                    <Border x:Name="TabBorder"
+                            Background="{TemplateBinding Background}"
                             Padding="{TemplateBinding Padding}"
                             BorderThickness="0,0,0,2"
                             BorderBrush="Transparent">
@@ -462,7 +496,8 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-                            <Setter TargetName="PART_ContentPresenter" 
+                            <!-- CORRECTION : On cible "TabBorder" au lieu de "PART_ContentPresenter" -->
+                            <Setter TargetName="TabBorder" 
                                     Property="BorderBrush" 
                                     Value="{StaticResource AccentColor}"/>
                         </Trigger>
@@ -474,6 +509,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 
     <Style TargetType="TabControl">
         <Setter Property="Background" Value="Transparent"/>
@@ -627,13 +663,15 @@
         <Setter Property="Padding" Value="16"/>
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect Color="{StaticResource ShadowColor}" 
+                <!-- CORRIGÉ : On utilise directement la couleur "Black" -->
+                <DropShadowEffect Color="Black" 
                                   BlurRadius="10" 
                                   Opacity="0.2"
                                   ShadowDepth="2"/>
             </Setter.Value>
         </Setter>
     </Style>
+
 
     <!-- ================================================== -->
     <!-- STYLES DES PROGRESSBARS                           -->

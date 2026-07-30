@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using SmartOffice365.Core.Models;
 
 namespace SmartOffice365.Core.Interfaces

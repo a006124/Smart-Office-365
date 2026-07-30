@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SmartOffice365.UI.Converters
+namespace SmartOffice365.Core.Converters
 {
     /// <summary>
     /// Convertit un booléen en texte de statut (True = "Actif", False = "Inactif")

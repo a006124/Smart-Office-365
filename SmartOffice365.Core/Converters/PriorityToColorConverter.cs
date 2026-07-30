@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace SmartOffice365.UI.Converters
+namespace SmartOffice365.Core.Converters
 {
     /// <summary>
     /// Convertit une priorité en couleur

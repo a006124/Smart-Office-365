@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SmartOffice365.UI.Converters
+namespace SmartOffice365.Core.Converters
 {
     /// <summary>
     /// Inverse une valeur booléenne. True devient False, False devient True

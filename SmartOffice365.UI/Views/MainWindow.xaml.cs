@@ -42,8 +42,8 @@ namespace SmartOffice365.UI.Views
             _selectionService = selectionService;
             _dataService = dataService;
             _mainViewModel = mainViewModel;
-            
-            DataContext = this;
+
+            DataContext = mainViewModel;
             
             Loaded += OnLoaded;
             Closing += OnClosing;

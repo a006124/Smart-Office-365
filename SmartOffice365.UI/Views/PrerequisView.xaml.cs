@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace SmartOffice365.UI.Views
 {
-    public partial class DashboardView : System.Windows.Controls.UserControl
+    public partial class PrerequisView : System.Windows.Controls.UserControl
     {
-        public DashboardView()
+        public PrerequisView()
         {
             InitializeComponent();
         }
