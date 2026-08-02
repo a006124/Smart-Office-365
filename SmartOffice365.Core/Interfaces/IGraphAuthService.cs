@@ -6,6 +6,8 @@ namespace SmartOffice365.Core.Interfaces
     public interface IGraphAuthService
     {
         Task<GraphServiceClient> GetAuthenticatedClientAsync();
+        Task<string> GetAccessTokenAsync();
+
         Task<bool> IsAuthenticatedAsync();
         Task<string> GetCurrentUserDisplayNameAsync();
 

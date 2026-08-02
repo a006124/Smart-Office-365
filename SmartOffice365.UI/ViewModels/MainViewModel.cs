@@ -49,8 +49,16 @@ namespace SmartOffice365.UI.ViewModels
             set => SetProperty(ref _isSidebarExpanded, value);
         }
 
+        private string _statusMessage = string.Empty;
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set => SetProperty(ref _statusMessage, value);
+        }
+        
         // ViewModels enfants
         public DashboardViewModel DashboardVM { get; }
+        public ArretsViewModel ArretsVM { get; }
         public OrdresDeTravailViewModel OrdresDeTravailVM { get; }
         public PrerequisViewModel PrerequisVM { get; }
         public RessourcesViewModel RessourcesVM { get; }
@@ -65,6 +73,7 @@ namespace SmartOffice365.UI.ViewModels
         public MainViewModel(
             IGraphAuthService authService, // AJOUTÉ
             DashboardViewModel dashboardVM,
+            ArretsViewModel arretsVM,
             OrdresDeTravailViewModel ordresDeTravailVM,
             PrerequisViewModel prerequisVM,
             RessourcesViewModel ressourcesVM,
@@ -74,11 +83,17 @@ namespace SmartOffice365.UI.ViewModels
             _authService = authService; // AJOUTÉ
 
             DashboardVM = dashboardVM;
+            ArretsVM = arretsVM;
             OrdresDeTravailVM = ordresDeTravailVM;
             PrerequisVM = prerequisVM;
             RessourcesVM = ressourcesVM;
             ContactsVM = contactsVM;
             ConfigurationVM = configurationVM;
+            {
+                // init existante
+                // Message d’accueil par défaut (optionnel)
+                StatusMessage = "Application prête.";
+            }
 
             _currentView = DashboardVM;
 
@@ -113,6 +128,10 @@ namespace SmartOffice365.UI.ViewModels
                 case "Dashboard":
                     CurrentView = DashboardVM;
                     CurrentTitle = "Cockpit de Pilotage";
+                    break;
+                case "Arrets":
+                    CurrentView = ArretsVM;
+                    CurrentTitle = "Gestion des Arrêts";
                     break;
                 case "OrdresDeTravail":
                     CurrentView = OrdresDeTravailVM;

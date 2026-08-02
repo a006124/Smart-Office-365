@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Azure.Core; // AJOUTÉ : Pour TokenRequestContext
 using Azure.Identity;
 using Microsoft.Graph;
 using SmartOffice365.Core.Interfaces;
@@ -10,6 +11,7 @@ namespace SmartOffice365.Core.Services
     public class GraphAuthService : IGraphAuthService
     {
         private GraphServiceClient? _graphClient;
+        private DefaultAzureCredential? _credential; // AJOUTÉ : Stockage du credential pour générer des tokens
         private string _userDisplayName = string.Empty;
 
         // URL par défaut (Renault)
@@ -31,6 +33,7 @@ namespace SmartOffice365.Core.Services
 
             _sharePointUrl = url;
             _graphClient = null; // Force la ré-authentification avec le nouveau Tenant
+            _credential = null;  // AJOUTÉ : Réinitialise aussi le credential
             _tenantId = null;
         }
 
@@ -46,7 +49,7 @@ namespace SmartOffice365.Core.Services
             }
 
             // 2. Configuration de DefaultAzureCredential avec le Tenant ID dynamique
-            var credential = new DefaultAzureCredential(
+            _credential = new DefaultAzureCredential(
                 new DefaultAzureCredentialOptions
                 {
                     TenantId = _tenantId,
@@ -60,8 +63,29 @@ namespace SmartOffice365.Core.Services
                     ExcludeEnvironmentCredential = true
                 });
 
-            _graphClient = new GraphServiceClient(credential, Scopes);
+            _graphClient = new GraphServiceClient(_credential, Scopes);
             return _graphClient;
+        }
+
+        /// <summary>
+        /// Récupère le jeton d'accès (Access Token) actif pour les requêtes HTTP directes
+        /// </summary>
+        public async Task<string> GetAccessTokenAsync()
+        {
+            // S'assure que le client et le credential sont initialisés
+            if (_credential == null)
+            {
+                await GetAuthenticatedClientAsync();
+            }
+
+            if (_credential == null)
+                throw new InvalidOperationException("Impossible d'initialiser le contexte d'authentification Azure.");
+
+            // Demande un token d'accès pour Microsoft Graph
+            var tokenRequestContext = new TokenRequestContext(Scopes);
+            var tokenResult = await _credential.GetTokenAsync(tokenRequestContext);
+
+            return tokenResult.Token;
         }
 
         /// <summary>

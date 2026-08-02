@@ -112,6 +112,10 @@
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <views:DashboardView />
         </DataTemplate>
+        <!-- AJOUTÉ : DataTemplate pour la Gestion des Arrêts -->
+        <DataTemplate DataType="{x:Type vm:ArretsViewModel}">
+            <views:ArretsView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:OrdresDeTravailViewModel}">
             <views:OrdresDeTravailView />
         </DataTemplate>
@@ -167,6 +171,12 @@
                     <Button Style="{StaticResource SidebarNavButton}"
                             Tag="&#xE80F;" Content="Cockpit"
                             Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+
+                    <!-- AJOUTÉ : Bouton Gestion des Arrêts -->
+                    <Button Style="{StaticResource SidebarNavButton}"
+                            Tag="&#xE787;" Content="Arrêts"
+                            Command="{Binding NavigateCommand}" CommandParameter="Arrets" />
+
                     <Button Style="{StaticResource SidebarNavButton}"
                             Tag="&#xE825;" Content="OT &amp; SAP"
                             Command="{Binding NavigateCommand}" CommandParameter="OrdresDeTravail" />
@@ -269,9 +279,13 @@
                         <TextBlock Text=")" FontSize="11" FontFamily="Segoe UI" VerticalAlignment="Center"/>
 
                         <TextBlock Text="  |  " FontSize="11" Foreground="#444746" VerticalAlignment="Center"/>
-                        <TextBlock Text="SAP PM: Synchro active" FontSize="11" FontFamily="Segoe UI" VerticalAlignment="Center"/>
-                        <TextBlock Text="  |  " FontSize="11" Foreground="#444746" VerticalAlignment="Center"/>
-                        <TextBlock Text="SharePoint Site: OK" FontSize="11" FontFamily="Segoe UI" VerticalAlignment="Center"/>
+                        <!-- Affichage dynamique du statut -->
+                        <TextBlock Text="{Binding StatusMessage}"
+                           Foreground="{Binding StatusMessage, Converter={StaticResource StatusToColorConverter}}"
+                           FontSize="11"
+                           FontFamily="Segoe UI"
+                           TextTrimming="CharacterEllipsis"
+                           Width="300"/>
                     </StackPanel>
                 </StatusBarItem>
             </StatusBar>
